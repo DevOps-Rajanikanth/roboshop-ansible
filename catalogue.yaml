@@ -72,8 +72,9 @@
     when: product_count.stdout == "0" # keep double quotes
 
 
-  - name: catalogue enbled and start
+  - name: catalogue enabled and start
     ansible.builtin.service:
+      name: catalogue
       enabled: yes
       state: present
 
