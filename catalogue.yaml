@@ -10,11 +10,16 @@
       name: nodejs 
       state: present
   
-  - name: adduser
+  - name: create roboshop user
     ansible.builtin.user:
       name: roboshop
 
-  - name: mkdir
+  - name: Recursively remove app directory
+    ansible.builtin.file:
+      path: /app
+      state: absent
+
+  - name: create app directory
     ansible.builtin.file:
       path: /app
       state: direcotry
