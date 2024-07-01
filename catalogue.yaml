@@ -7,17 +7,17 @@
   
   - name: install nodejs 
     ansible.builtin.package:
-    name: nodejs 
-    state: present
+      name: nodejs 
+      state: present
   
   - name: adduser
     ansible.builtin.user:
-    name: roboshop
+      name: roboshop
 
   - name: mkdir
     ansib.builtin.file:
-    path: /app
-    state: direcotry
+      path: /app
+      state: direcotry
 
   - name: download the catalogue.zip
     ansible.builtin.get.url:
