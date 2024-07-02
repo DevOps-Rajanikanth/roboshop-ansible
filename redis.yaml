@@ -25,7 +25,7 @@
   - name: enabled and start the service
     ansible.builtin.service:
       enabled: yes
-      state: present
+      state: restarted
 
   
 
