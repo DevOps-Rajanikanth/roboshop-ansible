@@ -42,7 +42,7 @@
       dest: /etc/systemd/system/user.service
 
   - name: daemon-reload and start
-    anisble.builtin.systemd_service:
+    ansible.builtin.systemd_service:
       daemon_reload: true
 
 
@@ -52,7 +52,7 @@
       dest: /etc/yum.repos.d/mongo.repo
 
   - name: install mongodb client
-    anisble.builtin.package:
+    ansible.builtin.package:
       name: mongodb-org-shell
 
   - name: load catalogue data
