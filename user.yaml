@@ -1,0 +1,69 @@
+- name: user
+  hosts: user
+  become: yes
+  tasks:
+  
+  - name: disble old & enable nodejs new version
+    ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:18 -y
+
+  - name: Install NodeJS
+    ansible.builtin.package:
+      name: nodejs
+      state: present
+
+  - name: create roboshop user
+    ansible.builtin.user:
+      name: roboshop
+
+  - name: create a directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+
+  - name: download application code
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/user.zip
+      dest: /tmp
+
+  - name: unzip the code
+    ansible.builtin.unarchive:
+      src: /tmp/user.zip
+      dest: /app
+      remote_src: yes
+
+  - name: install dependencies
+    ansible.builtin.command: npm install
+    args: 
+      chdir: /app
+
+  - name: copy user.service
+    ansible.builtin.copy:
+      src: user.service
+      dest: /etc/systemd/system/user.service
+
+  - name: daemon-reload
+    anisble.builtin.systemd_service:
+      daemon_reload: true
+
+
+  - name: copy mongorepo
+    ansible.builtin.copy:
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: install mongodb client
+    anisble.builtin.package:
+      name: mongodb-org-shell
+
+  - name: load catalogue data
+    ansible.builtin.command: mongo --host mongodb.devopsrk.cloud < /app/schema/catalogue.js
+    when: product_count.stdout == "0" # keep double quotes 
+
+
+
+  - name: enable and start the user
+    ansible.builtin.service:
+      name: user
+      enabled: yes
+      state: restarted
+
