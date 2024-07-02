@@ -22,10 +22,11 @@
       regexp: '127.0.0.1'
       replace: '0.0.0.0'
 
-  - name: enabled and start the service
+  - name: start and enble redis
     ansible.builtin.service:
-      enabled: yes
       state: restarted
+      enabled: yes
+      
 
   
 
