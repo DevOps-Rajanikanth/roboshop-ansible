@@ -60,7 +60,6 @@
     when: product_count.stdout == "0" # keep double quotes 
 
 
-
   - name: enable and start the user
     ansible.builtin.service:
       name: user
