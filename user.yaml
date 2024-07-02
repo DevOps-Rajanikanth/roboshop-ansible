@@ -55,6 +55,10 @@
     ansible.builtin.package:
       name: mongodb-org-shell
 
+  - name: get the categories count
+    ansible.builtin.command:  mongo --host mongodb.devopsrk.cloud --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+    register: product_count
+
   - name: load catalogue data
     ansible.builtin.command: mongo --host mongodb.devopsrk.cloud < /app/schema/catalogue.js
     when: product_count.stdout == "0" # keep double quotes 
