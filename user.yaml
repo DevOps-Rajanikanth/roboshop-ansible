@@ -41,7 +41,7 @@
       src: user.service
       dest: /etc/systemd/system/user.service
 
-  - name: daemon-reload
+  - name: daemon-reload and start
     anisble.builtin.systemd_service:
       daemon_reload: true
 
